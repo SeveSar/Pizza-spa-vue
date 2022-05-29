@@ -1,1 +1,0 @@
-import{_ as e,o,c,b as t}from"./index.50b4d3d4.js";const r={},s=t("h1",null,"\u041F\u0440\u043E\u0444\u0438\u043B\u044C\u0430",-1),n=[s];function _(a,l){return o(),c("div",null,n)}var f=e(r,[["render",_]]);export{f as default};

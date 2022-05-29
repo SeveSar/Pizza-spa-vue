@@ -27,6 +27,9 @@
           <span>Итого: </span> ₽{{ totalPrice }}
         </div>
       </div>
+      <button class="btn btn--main btn--order" @click="order">
+        Оформить заказ
+      </button>
     </div>
     <div class="cart-empty" v-else>
       <img src="@/assets/images/empty-cart.png" alt="" />
@@ -39,8 +42,14 @@
 import AppCartList from "@/components/main/cart/AppCartList.vue";
 import { useCartStore } from "@/stores/cart";
 import { storeToRefs } from "pinia";
+import { useRouter } from "vue-router";
 const cartStore = useCartStore();
 const { cart, totalPrice, totalItems } = storeToRefs(cartStore);
+const router = useRouter();
+const order = () => {
+  router.push({ name: "Order" });
+  cartStore.clearCart();
+};
 </script>
 
 <style scoped lang="less">
@@ -107,9 +116,20 @@ const { cart, totalPrice, totalItems } = storeToRefs(cartStore);
     line-height: 28px;
     color: #ff7010;
     padding: 20px 16px;
+    @media screen and (max-width: 575px) {
+      flex-direction: column;
+      align-items: flex-start;
+      .cart__footer-price {
+        margin-top: 15px;
+      }
+    }
     span {
       color: #000;
     }
+  }
+  .btn.btn--order {
+    margin: 25px auto 0;
+    padding: 0 25px;
   }
 }
 </style>

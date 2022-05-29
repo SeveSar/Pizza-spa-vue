@@ -422,5 +422,13 @@ watch(
   .nav {
     margin-top: 25px;
   }
+  .user-auth__btn {
+    color: #ff7010;
+    display: flex;
+    align-items: center;
+    svg {
+      margin-right: 10px;
+    }
+  }
 }
 </style>

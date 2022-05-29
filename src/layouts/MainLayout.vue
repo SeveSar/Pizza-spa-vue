@@ -6,7 +6,11 @@
       <AppModalAuth></AppModalAuth>
     </AppModalWrap>
     <AppNotification />
-    <router-link :to="{ name: 'Cart' }" class="cart-mobile">
+    <router-link
+      :to="{ name: 'Cart' }"
+      class="cart-mobile"
+      v-if="!loadingStore.loading"
+    >
       <img src="@/assets/images/icons/cart.svg" alt="" />
       <span>{{ totalItems }}</span>
     </router-link>

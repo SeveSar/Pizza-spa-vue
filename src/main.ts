@@ -14,7 +14,6 @@ import { useLoadingStore } from "@/stores/loading";
 import { getCartUser } from "@/services/firebase";
 import { getInfo } from "@/utils/infoUser";
 import { useProductsStore } from "@/stores/products";
-import type { ProductItem } from "./types/ProductItem";
 
 const firebaseConfig = {
   apiKey: `${import.meta.env.VITE_FIREBASE_KEY}`,
@@ -37,13 +36,19 @@ app.use(Alert);
 app.use(Spin);
 app.use(createPinia());
 app.use(router);
-if (userId) {
-  useLoadingStore().setLoading(true);
-  getCartUser(userId).then((cartData) => {
-    useCartStore().saveCart(cartData?.data ?? []);
-    useLoadingStore().setLoading(false);
-  });
-}
 
-useProductsStore().fetchProducts();
+async function getUserCartFunc() {
+  if (userId) {
+    const cartData = await getCartUser(userId);
+    return await useCartStore().saveCart(cartData?.data ?? []);
+  }
+  return true;
+}
+useLoadingStore().setLoading(true);
+Promise.all([useProductsStore().fetchProducts(), getUserCartFunc()]).then(
+  () => {
+    useLoadingStore().setLoading(false);
+  }
+);
+
 app.mount("#app");

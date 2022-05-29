@@ -50,7 +50,7 @@ useBodyToggleClass(loginModal);
 }
 .modal-overlay {
   display: flex;
-  z-index: 780;
+  z-index: 1001;
   position: relative;
   overflow: auto;
   padding: 50px;
@@ -59,6 +59,9 @@ useBodyToggleClass(loginModal);
   left: 0;
   width: 100%;
   height: 100%;
+  @media screen and (max-width: 600px) {
+    padding: 20px;
+  }
 }
 .modal-backdrop {
   position: fixed;
@@ -68,6 +71,6 @@ useBodyToggleClass(loginModal);
   bottom: 0;
   background: rgba(25, 25, 25, 0.4);
   backdrop-filter: blur(32px);
-  z-index: 777;
+  z-index: 1000;
 }
 </style>

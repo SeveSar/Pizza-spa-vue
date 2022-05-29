@@ -1,12 +1,18 @@
 <template>
   <article class="product">
-    <div class="product__img">
+    <router-link
+      :to="{ name: 'Product', params: { id: product.id } }"
+      class="product__img"
+    >
       <img :src="product.imageUrl" alt="" />
-    </div>
+    </router-link>
     <div class="product__body">
-      <h4 class="product__name">
-        {{ product.name }}
-      </h4>
+      <router-link :to="{ name: 'Product', params: { id: product.id } }">
+        <h4 class="product__name">
+          {{ product.name }}
+        </h4>
+      </router-link>
+
       <div class="product__text">Рейтинг: {{ product.rating }}</div>
     </div>
     <div class="product__actions" v-if="!userCartStore.inCart(product.id)">

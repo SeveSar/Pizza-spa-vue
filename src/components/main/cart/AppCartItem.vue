@@ -85,10 +85,15 @@ const onChange = (itemCart: Cartitem, event: Event): void => {
   padding: 15px 24px 15px 16px;
   margin-bottom: 16px;
   position: relative;
+
   &__inner {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    @media screen and (max-width: 700px) {
+      flex-direction: column;
+      align-items: flex-start;
+    }
   }
   .btn.btn--del {
     position: absolute;
@@ -101,14 +106,26 @@ const onChange = (itemCart: Cartitem, event: Event): void => {
   }
   &__col {
     width: 65%;
+    @media screen and (max-width: 700px) {
+      width: 100%;
+    }
     &:last-child {
       width: 35%;
+      @media screen and (max-width: 700px) {
+        width: 100%;
+        margin-top: 20px;
+      }
     }
   }
   &__name {
     font-weight: 600;
     font-size: 20px;
     line-height: 28px;
+    @media screen and (max-width: 575px) {
+      font-size: 15px;
+      line-height: 18px;
+      margin-bottom: 1px;
+    }
   }
   &__content {
     display: flex;
@@ -121,6 +138,11 @@ const onChange = (itemCart: Cartitem, event: Event): void => {
     margin-right: 15px;
     object-fit: contain;
     display: block;
+    @media screen and (max-width: 575px) {
+      width: 70px;
+      height: 70px;
+      margin-right: 8px;
+    }
   }
   &-wrap {
     // width: 75%;

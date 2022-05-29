@@ -24,6 +24,9 @@ defineProps<{
   display: flex;
   flex-wrap: wrap;
   margin: 60px -15px 0;
+  @media screen and (max-width: 575px) {
+    margin: 60px 0 0;
+  }
   &__item {
     width: calc(100% / 4);
     padding: 0 15px;
@@ -31,6 +34,16 @@ defineProps<{
     display: flex;
     flex-direction: column;
     transition: all 0.3s ease-in;
+    @media screen and (max-width: 1200px) {
+      width: calc(100% / 3);
+    }
+    @media screen and (max-width: 875px) {
+      width: calc(100% / 2);
+    }
+    @media screen and (max-width: 575px) {
+      width: 100%;
+      padding: 0;
+    }
     &:hover {
       transform: scale(1.03);
     }

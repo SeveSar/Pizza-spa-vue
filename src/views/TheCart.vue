@@ -54,6 +54,11 @@ const { cart, totalPrice, totalItems } = storeToRefs(cartStore);
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-bottom: 25px;
+    @media screen and (max-width: 575px) {
+      flex-direction: column;
+      align-items: flex-start;
+    }
   }
   &-empty {
     display: flex;
@@ -77,6 +82,9 @@ const { cart, totalPrice, totalItems } = storeToRefs(cartStore);
   }
   .btn.btn--clear {
     color: #000;
+    @media screen and (max-width: 575px) {
+      margin-top: 15px;
+    }
     svg {
       transition: all 0.2s linear;
     }

@@ -5,16 +5,9 @@
         <div class="container">
           <div class="header__top-inner">
             <div class="header__top-col">
-              <a-select
-                ref="select"
-                v-model:value="value"
-                style="width: 120px"
-                :options="options"
-              >
-              </a-select>
+              <div class="header__text">Время работы: с 11:00 до 23:00</div>
             </div>
             <div class="header__top-col">
-              <div class="header__text">Время работы: с 11:00 до 23:00</div>
               <div class="user-auth">
                 <button
                   v-if="!userStore.isAuth"
@@ -86,27 +79,25 @@
       <div class="header__bottom">
         <div class="container">
           <div class="header__bottom-inner">
-            <div class="header__bottom-col">
+            <div class="header__bottom-logo">
               <router-link :to="{ name: 'Home' }" href="#" class="logo">
                 <img src="@/assets/images/logo.svg" alt="" />
               </router-link>
             </div>
-            <div class="header__bottom-col" v-if="userStore.isAuth">
-              <nav class="nav">
-                <ul class="nav-list">
-                  <li
-                    class="nav-list__item"
-                    v-for="link in menuLinks"
-                    :key="link.title"
-                  >
-                    <router-link to="/" :class="{ active: link.active }">
-                      {{ link.title }}
-                    </router-link>
-                  </li>
-                </ul>
-              </nav>
-            </div>
-            <div class="header__bottom-col">
+            <nav class="nav" v-if="userStore.isAuth">
+              <ul class="nav-list">
+                <li
+                  class="nav-list__item"
+                  v-for="link in menuLinks"
+                  :key="link.title"
+                >
+                  <router-link to="/" :class="{ active: link.active }">
+                    {{ link.title }}
+                  </router-link>
+                </li>
+              </ul>
+            </nav>
+            <div class="header__bottom-user">
               <router-link class="user-cart" :to="{ name: 'Cart' }">
                 <svg
                   width="24"
@@ -130,36 +121,107 @@
                 </svg>
                 <div class="user-cart__price">{{ cartStore.totalPrice }} ₽</div>
               </router-link>
+              <div
+                class="burger"
+                @click="isOpenedBurger = !isOpenedBurger"
+                :class="{ active: isOpenedBurger }"
+              >
+                <span></span>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
   </header>
+  <div class="mobile-menu" :class="{ active: isOpenedBurger }">
+    <div class="user-auth">
+      <button
+        v-if="!userStore.isAuth"
+        class="user-auth__btn"
+        @click="modalStore.openLoginModal"
+      >
+        <svg
+          width="18"
+          height="20"
+          viewBox="0 0 18 20"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            fill-rule="evenodd"
+            clip-rule="evenodd"
+            d="M9.00001 0C6.35804 0 4.20825 2.14979 4.20825 4.79176C4.20825 7.43372 6.35803 9.58333 9.00001 9.58333C11.642 9.58333 13.7918 7.43372 13.7918 4.79176C13.7918 2.14979 11.642 0 9.00001 0ZM5.2755 4.79176C5.2755 2.73768 6.94613 1.06724 9.00001 1.06724C11.0539 1.06724 12.7245 2.73768 12.7245 4.79176C12.7245 6.84566 11.0539 8.51609 9.00001 8.51609C6.94614 8.51609 5.2755 6.84566 5.2755 4.79176Z"
+            fill="#FF7010"
+          />
+          <path
+            fill-rule="evenodd"
+            clip-rule="evenodd"
+            d="M4.96381 11.6665C2.59468 11.6665 0.666626 13.6453 0.666626 16.0768V19.4881C0.666626 19.7705 0.890047 19.9998 1.1652 19.9998H16.8347C17.1099 19.9998 17.3333 19.7705 17.3333 19.4881V16.0768C17.3333 13.6453 15.4052 11.6665 13.0361 11.6665H4.96381ZM1.66378 16.0768C1.66378 14.2092 3.14412 12.6899 4.96381 12.6899H13.0361C14.8558 12.6899 16.3361 14.2092 16.3361 16.0768V18.9764H1.66378V16.0768Z"
+            fill="#FF7010"
+          />
+        </svg>
+        Войти в аккаунт
+      </button>
+      <div v-if="userStore.isAuth" class="user-drop">
+        <div class="current">
+          <button>
+            <svg
+              width="18"
+              height="20"
+              viewBox="0 0 18 20"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                d="M9.00001 0C6.35804 0 4.20825 2.14979 4.20825 4.79176C4.20825 7.43372 6.35803 9.58333 9.00001 9.58333C11.642 9.58333 13.7918 7.43372 13.7918 4.79176C13.7918 2.14979 11.642 0 9.00001 0ZM5.2755 4.79176C5.2755 2.73768 6.94613 1.06724 9.00001 1.06724C11.0539 1.06724 12.7245 2.73768 12.7245 4.79176C12.7245 6.84566 11.0539 8.51609 9.00001 8.51609C6.94614 8.51609 5.2755 6.84566 5.2755 4.79176Z"
+                fill="#FF7010"
+              />
+              <path
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                d="M4.96381 11.6665C2.59468 11.6665 0.666626 13.6453 0.666626 16.0768V19.4881C0.666626 19.7705 0.890047 19.9998 1.1652 19.9998H16.8347C17.1099 19.9998 17.3333 19.7705 17.3333 19.4881V16.0768C17.3333 13.6453 15.4052 11.6665 13.0361 11.6665H4.96381ZM1.66378 16.0768C1.66378 14.2092 3.14412 12.6899 4.96381 12.6899H13.0361C14.8558 12.6899 16.3361 14.2092 16.3361 16.0768V18.9764H1.66378V16.0768Z"
+                fill="#FF7010"
+              />
+            </svg>
+            Вы
+          </button>
+        </div>
+        <div class="dropdown">
+          <div class="dropdown__inner">
+            <router-link :to="{ name: 'Profile' }">Профиль</router-link>
+            <button @click="logOut">Выйти</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <nav class="nav" v-if="userStore.isAuth">
+      <ul class="nav-list">
+        <li class="nav-list__item" v-for="link in menuLinks" :key="link.title">
+          <router-link to="/" :class="{ active: link.active }">
+            {{ link.title }}
+          </router-link>
+        </li>
+      </ul>
+    </nav>
+  </div>
 </template>
 
 <script setup lang="ts">
-import type { SelectTypes } from "ant-design-vue/es/select";
-import { ref } from "vue";
 import { useModalStore } from "@/stores/modal";
 import { useUserStore } from "@/stores/user";
 import { useCartStore } from "@/stores/cart";
-import { useRouter } from "vue-router";
-const value = ref<string>("Moscow");
-const options = ref<SelectTypes["options"]>([
-  {
-    value: "Moscow",
-    label: "Москва",
-  },
-  {
-    value: "Sankt",
-    label: "Санк-Петербург",
-  },
-]);
-
+import { useRouter, useRoute } from "vue-router";
+import { ref, watch } from "vue";
+import { useBodyToggleClass } from "@/use/bodyToggleClass";
 const modalStore = useModalStore();
 const userStore = useUserStore();
 const cartStore = useCartStore();
+const route = useRoute();
+const isOpenedBurger = ref<boolean>(false);
+useBodyToggleClass(isOpenedBurger);
 const menuLinks = [
   { title: "Пицца", active: true },
   { title: "Суши", active: false },
@@ -174,13 +236,76 @@ const logOut = () => {
   userStore.logout();
   router.push({ name: "Home" });
 };
+watch(
+  () => route.query,
+  () => {
+    isOpenedBurger.value = false;
+  }
+);
 </script>
 
 <style scoped lang="less">
+.user-drop {
+  position: relative;
+
+  button {
+    display: flex;
+    align-items: center;
+    transition: all 0.2s linear;
+    font-size: 14px;
+    line-height: 18px;
+    color: #ff7010;
+  }
+
+  &:hover {
+    color: darken(#ff7010, 15%);
+    .dropdown {
+      opacity: 1;
+      visibility: visible;
+    }
+  }
+  .dropdown {
+    position: absolute;
+    top: 100%;
+    z-index: 5;
+    width: 150px;
+    left: 50%;
+    transform: translateX(-50%);
+    transition: all 0.2s linear;
+    padding-top: 10px;
+    opacity: 0;
+    visibility: hidden;
+    @media screen and (max-width: 1430px) {
+      left: auto;
+      transform: none;
+      right: 0;
+    }
+    @media screen and (max-width: 991px) {
+      left: 0;
+      right: auto;
+    }
+    &__inner {
+      padding: 15px 20px;
+      background: #ffffff;
+      /* Line gray */
+      border: 1px solid #f0f0f0;
+      box-shadow: 0px 2px 8px rgba(25, 25, 25, 0.1);
+      border-radius: 12px;
+    }
+    button {
+      margin: 0;
+    }
+  }
+}
 .header {
   width: 100%;
+  position: relative;
+  z-index: 999;
   background-color: #fff;
-
+  @media screen and (max-width: 991px) {
+    position: fixed;
+    width: 100%;
+  }
   &__top {
     border-bottom: 1px solid #f0f0f0;
     padding: 4px 0;
@@ -205,52 +330,13 @@ const logOut = () => {
       margin-right: 10px;
     }
   }
-  .user-drop {
-    position: relative;
 
-    button {
-      display: flex;
-      align-items: center;
-      transition: all 0.2s linear;
-      font-size: 14px;
-      line-height: 18px;
-      color: #ff7010;
-    }
-
-    &:hover {
-      color: darken(#ff7010, 15%);
-      .dropdown {
-        opacity: 1;
-        visibility: visible;
-      }
-    }
-    .dropdown {
-      position: absolute;
-      top: 100%;
-      z-index: 5;
-      width: 150px;
-      left: 50%;
-      transform: translateX(-50%);
-      transition: all 0.2s linear;
-      padding-top: 10px;
-      opacity: 0;
-      visibility: hidden;
-      &__inner {
-        padding: 15px 20px;
-        background: #ffffff;
-        /* Line gray */
-        border: 1px solid #f0f0f0;
-        box-shadow: 0px 2px 8px rgba(25, 25, 25, 0.1);
-        border-radius: 12px;
-      }
-      button {
-        margin: 0;
-      }
-    }
-  }
   .logo {
     display: block;
     width: 141px;
+    @media screen and (max-width: 991px) {
+      width: 120px;
+    }
     img {
       width: 100%;
       height: auto;
@@ -263,6 +349,9 @@ const logOut = () => {
   }
   &__bottom {
     padding: 12px 0;
+    @media screen and (max-width: 991px) {
+      padding: 7px 0;
+    }
     &-inner {
       display: flex;
       align-items: center;
@@ -277,28 +366,61 @@ const logOut = () => {
     align-items: center;
     padding: 0 17px;
     color: #ffffff;
+    @media screen and (max-width: 991px) {
+      display: none;
+    }
     svg {
       margin-right: 8px;
     }
   }
-  .nav-list {
-    display: flex;
-    &__item {
-      font-size: 16px;
-      line-height: 22px;
-      &:not(:last-child) {
-        margin-right: 32px;
-      }
-      a {
-        color: #191919;
-        &.active {
-          color: #ff7010;
-        }
-        &:hover {
-          color: #ff7010;
-        }
+  .nav {
+    @media screen and (max-width: 991px) {
+      display: none;
+    }
+  }
+}
+.nav-list {
+  display: flex;
+  @media screen and (max-width: 991px) {
+    flex-direction: column;
+  }
+  &__item {
+    font-size: 16px;
+    line-height: 22px;
+    &:not(:last-child) {
+      margin-right: 32px;
+      @media screen and (max-width: 991px) {
+        margin-right: 0;
+        margin-bottom: 15px;
       }
     }
+    a {
+      color: #191919;
+      &.active {
+        color: #ff7010;
+      }
+      &:hover {
+        color: #ff7010;
+      }
+    }
+  }
+}
+
+.mobile-menu {
+  position: fixed;
+  top: -100%;
+  overflow: auto;
+  z-index: 777;
+  height: 100%;
+  background-color: #fff;
+  width: 100%;
+  padding: 100px 20px 20px;
+  transition: all 0.3s ease;
+  &.active {
+    top: 0;
+  }
+  .nav {
+    margin-top: 25px;
   }
 }
 </style>

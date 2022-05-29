@@ -75,6 +75,10 @@ const order = () => {
     img {
       display: block;
       margin: auto;
+      width: 60%;
+      @media screen and (max-width: 575px) {
+        width: 100%;
+      }
     }
     a {
       font-weight: 400;

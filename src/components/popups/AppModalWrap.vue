@@ -1,18 +1,17 @@
 <template>
   <transition name="fade">
-    <div class="modal-backdrop" v-if="loginModal"></div>
-  </transition>
-  <transition name="fade">
     <div
       class="modal-overlay"
       v-if="loginModal"
       @click="storeModal.closeLoginModal"
     >
       <div class="modal" @click.stop>
-        <slot></slot>
         <button class="modal-close" @click="storeModal.closeLoginModal">
           <img src="@/assets/images/icons/close.svg" alt="" />
         </button>
+        <form action="" class="form">
+          <h2 class="form__title">Describe the task</h2>
+        </form>
       </div>
     </div>
   </transition>
@@ -62,15 +61,5 @@ useBodyToggleClass(loginModal);
   @media screen and (max-width: 600px) {
     padding: 20px;
   }
-}
-.modal-backdrop {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(25, 25, 25, 0.4);
-  backdrop-filter: blur(32px);
-  z-index: 1000;
 }
 </style>

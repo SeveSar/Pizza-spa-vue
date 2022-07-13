@@ -1,13 +1,13 @@
 import { createRouter, createWebHashHistory } from "vue-router";
 import { useUserStore } from "@/stores/user";
-import TheError from "@/views/TheError.vue";
+import ErrorPage from "@/views/ErrorPage.vue";
 const router = createRouter({
   history: createWebHashHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: "/",
       name: "Home",
-      component: () => import("../views/TheIndex.vue"),
+      component: () => import("../views/IndexPage.vue"),
       meta: {
         layout: "MainLayout",
         isAuth: false,
@@ -16,7 +16,7 @@ const router = createRouter({
     {
       path: "/cart",
       name: "Cart",
-      component: () => import("../views/TheCart.vue"),
+      component: () => import("../views/CartPage.vue"),
       meta: {
         layout: "MainLayout",
         isAuth: true,
@@ -25,7 +25,7 @@ const router = createRouter({
     {
       path: "/order-done",
       name: "Order",
-      component: () => import("../views/TheOrder.vue"),
+      component: () => import("../views/OrderPage.vue"),
       meta: {
         layout: "MainLayout",
         isAuth: true,
@@ -34,7 +34,7 @@ const router = createRouter({
     {
       path: "/profile",
       name: "Profile",
-      component: () => import("../views/TheProfile.vue"),
+      component: () => import("../views/ProfilePage.vue"),
       meta: {
         layout: "MainLayout",
         isAuth: true,
@@ -43,7 +43,7 @@ const router = createRouter({
     {
       name: "Product",
       path: "/products/:id",
-      component: () => import("../views/TheProduct.vue"),
+      component: () => import("../views/ProductPage.vue"),
       meta: {
         layout: "MainLayout",
         isAuth: false,
@@ -51,7 +51,7 @@ const router = createRouter({
     },
     {
       path: "/:pathMatch(.*)*",
-      component: TheError,
+      component: ErrorPage,
       meta: {
         layout: "MainLayout",
         isAuth: false,

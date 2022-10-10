@@ -1,9 +1,9 @@
-import { createRouter, createWebHistory } from "vue-router";
+import { createRouter, createWebHashHistory } from "vue-router";
 import ErrorPage from "@/views/ErrorPage.vue";
 import { loadLayoutMiddleware } from "./middleware/loadLayout.middleware";
 import { checkIsAuth } from "./middleware/chekIsAuth.middleware";
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
+  history: createWebHashHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: "/",

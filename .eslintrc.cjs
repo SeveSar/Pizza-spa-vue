@@ -9,8 +9,15 @@ module.exports = {
     "@vue/eslint-config-typescript/recommended",
     "@vue/eslint-config-prettier",
   ],
+
   rules: {
     "vue/script-setup-uses-vars": "error",
+    "prettier/prettier": [
+      "error",
+      {
+        endOfLine: "auto",
+      },
+    ],
   },
   env: {
     "vue/setup-compiler-macros": true,

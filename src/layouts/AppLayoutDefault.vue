@@ -4,7 +4,6 @@
     <AppModalWrap>
       <AppModalAuth></AppModalAuth>
     </AppModalWrap>
-    <AppNotification />
     <router-link :to="{ name: 'Cart' }" class="cart-mobile">
       <img src="@/assets/images/icons/cart.svg" alt="" />
       <span>{{ totalItems }}</span>
@@ -21,30 +20,24 @@
 import AppHeader from "@/components/layouts/AppHeader.vue";
 import AppModalWrap from "@/components/modal/AppModalWrap.vue";
 import AppModalAuth from "@/components/modal/AppModalAuth.vue";
-import AppNotification from "@/components/ui/AppNotification.vue";
 import { useRouter, useRoute } from "vue-router";
-import { useNoticeStore } from "@/stores/notification";
+import { openNotification } from "@/utils/notice";
 import { useCartStore } from "@/stores/cart";
 import { mapState } from "pinia";
 import { watch, defineComponent, onMounted } from "vue";
 export default defineComponent({
   setup() {
-    const noticeStore = useNoticeStore();
     const route = useRoute();
     const router = useRouter();
 
-    const callNotify = (type: string, title: string, text: string) => {
-      noticeStore.setMessage({
-        type,
-        title,
-        text,
-      });
-    };
     const checkRouteErrors = () => {
       if (route.query.msg) {
         switch (route.query.msg) {
           case "NOT_AUTH":
-            callNotify("error", "Error", "Вы не авторизованы");
+            openNotification("error", {
+              title: "Error",
+              text: "Вы не авторизованы",
+            });
             break;
         }
         router.push({ query: {} });
@@ -67,7 +60,6 @@ export default defineComponent({
     AppHeader,
     AppModalWrap,
     AppModalAuth,
-    AppNotification,
   },
   computed: {
     ...mapState(useCartStore, ["totalItems"]),

@@ -1,4 +1,4 @@
-import http from "./axios";
+import http from "../http/axios";
 import type { DataResponseUser } from "@/types/DataResponseUser";
 import type DataResponseUpdateToken from "@/types/DataResponseUpdateToken";
 
@@ -7,7 +7,7 @@ const register = async (
   password: string | number
 ): Promise<DataResponseUser> => {
   try {
-    return await http.post(
+    const res = await http.post<DataResponseUser>(
       `${import.meta.env.VITE_BASE_URL_FIREBASE_AUTH}/accounts:signUp?key=${
         import.meta.env.VITE_FIREBASE_KEY
       }`,
@@ -16,7 +16,8 @@ const register = async (
         password,
       }
     );
-  } catch (e: any) {
+    return res.data;
+  } catch (e) {
     return Promise.reject(e);
   }
 };
@@ -26,7 +27,7 @@ const login = async (
   password: string | number
 ): Promise<DataResponseUser> => {
   try {
-    return await http.post(
+    const res = await http.post<DataResponseUser>(
       `${
         import.meta.env.VITE_BASE_URL_FIREBASE_AUTH
       }/accounts:signInWithPassword?key=${import.meta.env.VITE_FIREBASE_KEY}`,
@@ -35,7 +36,8 @@ const login = async (
         password,
       }
     );
-  } catch (e: any) {
+    return res.data;
+  } catch (e) {
     return Promise.reject(e);
   }
 };
@@ -43,7 +45,7 @@ const updateTokenByRefresh = async (
   token: string
 ): Promise<DataResponseUpdateToken> => {
   try {
-    return await http.post(
+    const res = await http.post<DataResponseUpdateToken>(
       `https://securetoken.googleapis.com/v1/token?key=${
         import.meta.env.VITE_FIREBASE_KEY
       }`,
@@ -57,7 +59,8 @@ const updateTokenByRefresh = async (
         },
       }
     );
-  } catch (e: any) {
+    return res.data;
+  } catch (e) {
     return Promise.reject(e);
   }
 };

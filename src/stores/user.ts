@@ -1,12 +1,13 @@
 import { defineStore } from "pinia";
-import * as userApi from "../services/auth";
-import { useNoticeStore } from "./notification";
+import * as userApi from "@/core/services/auth";
+
 import { useModalStore } from "./modal";
 import { getInfo, setInfo, delInfo, setRefreshToken } from "@/utils/token";
 import type { UserInfo } from "@/types/UserInfo";
-import { setNewUserData } from "@/services/firebase";
-import { getCartUser } from "@/services/firebase";
+import { setNewUserData } from "@/core/services/firebase";
+import { getCartUser } from "@/core/services/firebase";
 import { useCartStore } from "@/stores/cart";
+import { openNotification } from "@/utils/notice";
 
 interface UserState {
   token: null | string;
@@ -26,8 +27,7 @@ export const useUserStore = defineStore({
   actions: {
     async login(email: string, password: string) {
       try {
-        const res = await userApi.login(email, password);
-        const data = res.data;
+        const data = await userApi.login(email, password);
 
         if (!data) return false;
         this.token = data.idToken ?? "";
@@ -45,22 +45,20 @@ export const useUserStore = defineStore({
         if (e.response?.data?.error?.message) {
           switch (e.response?.data?.error.message) {
             case "EMAIL_NOT_FOUND":
-              useNoticeStore().setMessage({
-                type: "error",
+              openNotification("error", {
                 title: "Ошибка",
                 text: "Пользователь с таким e-mail не существует",
               });
+
               break;
             case "INVALID_PASSWORD":
-              useNoticeStore().setMessage({
-                type: "error",
+              openNotification("error", {
                 title: "Ошибка",
                 text: "Пароль не верен",
               });
               break;
             case "TOO_MANY_ATTEMPTS_TRY_LATER":
-              useNoticeStore().setMessage({
-                type: "error",
+              openNotification("error", {
                 title: "Ошибка",
                 text: "Вы сделали много попыток входа. Повторите позже",
               });
@@ -71,20 +69,18 @@ export const useUserStore = defineStore({
     },
     async register(email: string, password: string) {
       try {
-        const res = await userApi.register(email, password);
+        const data = await userApi.register(email, password);
 
-        const data = res.data;
-        if (res && data) {
+        if (data) {
           await setNewUserData(email, data.localId ?? "");
           this.login(email, password);
           setRefreshToken(data?.refreshToken ?? "");
         }
-      } catch (e: any) {
-        if (e.response?.data?.error?.message) {
-          switch (e.response?.data?.error?.message) {
+      } catch (error: any) {
+        if (error.response?.data?.error?.message) {
+          switch (error.response?.data?.error?.message) {
             case "EMAIL_EXISTS":
-              useNoticeStore().setMessage({
-                type: "error",
+              openNotification("error", {
                 title: "Ошибка",
                 text: "Пользователь с таким e-mail уже существует",
               });
@@ -97,7 +93,7 @@ export const useUserStore = defineStore({
       this.token = null;
       this.user = {};
       delInfo();
-      useCartStore().clearCartLocal();
+      useCartStore().clearCart();
     },
   },
 });

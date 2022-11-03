@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { getAllProducts } from "../services/products";
+import { getAllProducts } from "@/core/services/products";
 import type { ProductItem } from "@/types/ProductItem";
 
 interface ProductsState {
@@ -23,9 +23,9 @@ export const useProductsStore = defineStore({
   actions: {
     async fetchProducts() {
       try {
-        const { data } = await getAllProducts();
-        if (data) {
-          this.products = data.pizzas;
+        const { pizzas } = await getAllProducts();
+        if (pizzas) {
+          this.products = pizzas;
         }
       } catch (e) {
         console.log(e);

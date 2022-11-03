@@ -12,11 +12,10 @@
           v-model="v$.emailInput.$model"
           labelText="Ваш E-mail"
           id="auth-1"
-          :classType="[{ error: v$.emailInput.$error }]"
+          :errors="emailErrorText"
           type="email"
           name="email"
         />
-        <small v-if="v$.emailInput.$invalid">{{ emailErrorText }}</small>
       </div>
       <div class="form-group">
         <BaseInput
@@ -24,13 +23,12 @@
           id="auth-2"
           type="password"
           name="password"
-          :classType="[{ error: v$.passwordInput.$error }]"
+          :errors="passwordErrorText"
           v-model="v$.passwordInput.$model"
         />
-        <small v-if="v$.passwordInput.$invalid">{{ passwordErrorText }}</small>
       </div>
     </div>
-    <button type="submit" class="btn btn--main">{{ buttonText }}</button>
+    <BaseButton type="submit" color="main">{{ buttonText }}</BaseButton>
   </form>
 </template>
 
@@ -38,7 +36,8 @@
 import useVuelidate from "@vuelidate/core";
 import { required, email, minLength } from "@vuelidate/validators";
 import BaseInput from "@/components/ui/BaseInput.vue";
-import { ref, computed } from "vue";
+import BaseButton from "../ui/BaseButton.vue";
+import { ref, toRef, toRefs, computed, reactive } from "vue";
 import type DataFormControls from "@/types/DataFormControls";
 
 defineProps({
@@ -55,37 +54,34 @@ const emit = defineEmits<{
   (e: "submit-form", data: DataFormControls): void;
 }>();
 
-const emailInput = ref<string>("");
-const passwordInput = ref<string>("");
+const state = reactive({
+  emailInput: "",
+  passwordInput: "",
+});
 const rules = {
   emailInput: { required, email },
   passwordInput: { required, minLength: minLength(6) },
 };
-const v$ = useVuelidate(
-  rules,
-  {
-    emailInput,
-    passwordInput,
-  },
-  { $lazy: true, $autoDirty: true }
-).value;
+
+const v$ = useVuelidate(rules, state, { $lazy: true, $autoDirty: true }).value;
 
 const emailErrorText = computed(() => {
   return v$.emailInput.required.$invalid
     ? "Укажите свой e-mail"
     : v$.emailInput.email.$invalid
     ? "Введите правильный e-mail"
-    : "";
+    : false;
 });
 const passwordErrorText = computed(() => {
   return v$.passwordInput.required.$invalid
     ? "Укажите пароль"
     : v$.passwordInput.minLength.$invalid
     ? "Мин 6 символов"
-    : "";
+    : false;
 });
 const onSubmit = async () => {
   const result = await v$.$validate();
+  const { emailInput, passwordInput } = toRefs(state);
   if (result) {
     emit("submit-form", {
       email: emailInput.value,
@@ -116,13 +112,8 @@ const onSubmit = async () => {
     &:not(:last-child) {
       margin-bottom: 20px;
     }
-    small {
-      color: red;
-      display: inline-block;
-      margin-top: 5px;
-    }
   }
-  button {
+  .button {
     width: 100%;
     margin-top: 20px;
   }

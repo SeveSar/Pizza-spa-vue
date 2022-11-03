@@ -4,31 +4,57 @@
     :type="type"
     class="form-control"
     :id="id"
-    :class="classType"
     :placeholder="placeholder"
     :value="modelValue"
     :name="name"
     @input="updateValue"
   />
+  <small v-if="errors">{{ errors }}</small>
 </template>
 
-<script setup lang="ts">
-defineProps<{
-  type: string;
-  classType?: Array<object> | Array<string>;
-  modelValue: string | any;
-  id?: string;
-  labelText: string;
-  name?: string;
-  placeholder?: string;
-}>();
-const emit = defineEmits<{
-  (e: "update:modelValue", value: string | number): void;
-}>();
-
-const updateValue = (e: Event) => {
-  emit("update:modelValue", (e.target as HTMLInputElement).value);
-};
+<script lang="ts">
+import { defineComponent } from "vue";
+export default defineComponent({
+  props: {
+    type: {
+      type: String,
+      default: "text",
+    },
+    modelValue: {
+      type: [String, Number],
+      default: "",
+    },
+    id: {
+      type: String,
+      default: "",
+    },
+    labelText: {
+      type: String,
+      default: null,
+    },
+    name: {
+      type: String,
+      default: null,
+    },
+    placeholder: {
+      type: String,
+      default: "",
+    },
+    errors: {
+      type: [Boolean, String],
+      default: false,
+    },
+  },
+  emits: ["update:modelValue"],
+  setup(props, ctx) {
+    const updateValue = (e: Event) => {
+      ctx.emit("update:modelValue", (e.target as HTMLInputElement).value);
+    };
+    return {
+      updateValue,
+    };
+  },
+});
 </script>
 
 <style scoped lang="less">
@@ -62,5 +88,10 @@ label {
   display: inline-block;
   color: #a5a5a5;
   margin-bottom: 8px;
+}
+small {
+  color: red;
+  display: inline-block;
+  margin-top: 5px;
 }
 </style>

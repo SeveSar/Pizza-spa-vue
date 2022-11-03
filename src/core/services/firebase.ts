@@ -1,5 +1,5 @@
 import type { Cartitem } from "@/types/CartItem";
-import { dbFireStore } from "../main";
+import { dbFireStore } from "../../main";
 import { updateDoc, arrayUnion, setDoc, getDoc, doc } from "firebase/firestore";
 
 interface CartRes {
@@ -29,13 +29,13 @@ export async function getCartUser(
     return Promise.reject(e);
   }
 }
-export async function addtoCartService(cartItem: Cartitem, userId: string) {
+export async function addtoCart(cartItem: Cartitem, userId: string) {
   const cartData = doc(dbFireStore, "cart", userId ?? "");
   return await updateDoc(cartData, {
     data: arrayUnion(cartItem),
   });
 }
-export async function saveCartService(cart: Cartitem[], userId: string) {
+export async function saveCart(cart: Cartitem[], userId: string) {
   const cartData = doc(dbFireStore, "cart", userId ?? "");
   return await updateDoc(cartData, {
     data: cart,

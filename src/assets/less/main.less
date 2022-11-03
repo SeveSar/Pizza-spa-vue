@@ -1,82 +1,18 @@
-
-
-@import 'fonts.less';
-
-button {
-  border: none;
-  padding: 0;
-  margin: 0;
-  background-color: transparent;
-}
+@import "reset";
+@import "fonts";
 
 body {
-  font-family: 'Inter';
+  font-family: "Inter";
   font-weight: 400;
   height: 100%;
   &.no-scroll {
     overflow: hidden;
   }
 }
-h1,h2,h3,h4,h5,h6 {
-  margin-bottom: 0;
-}
-ul,li {
-  padding: 0;
-  list-style: none;
-  margin: 0;
-}
-button {
-  cursor: pointer;
-  font-family: "Inter";
-  font-weight: 400;
-  color: #FFFFFF;
-  transition: all .2s linear;
-}
-input,textarea {
-  font-family: 'Inter';
-  font-weight: 400;
-  border: none;
-  border-radius: 0;
-  background-color: transparent;
-  &:focus {
-    outline: none;
-  }
-  &[type=number] {
-    -moz-appearance: textfield;
-  }
-  &::-webkit-outer-spin-button,
-  &::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-     margin: 0;
-  }
-  &:not([type='checkbox']):not([type='radio']) {
-    appearance: none;
-    -moz-appearance: none;
-    -webkit-appearance: none;
-  }
-}
 
 .main {
-  @media screen and (max-width: 991px){
+  @media screen and (max-width: 991px) {
     padding-top: 71px;
-  };
-}
-.btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 16px;
-  line-height: 22px;
-  &--main {
-    background: #FF7010;
-    border-radius: 6px;
-    height: 48px;
-    &:hover {
-      background-color: darken(#FF7010, 15%);
-    }
-  }
-  &--red {
-    background-color: #ff0000;
   }
 }
 

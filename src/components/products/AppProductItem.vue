@@ -16,44 +16,62 @@
       <div class="product__text">Рейтинг: {{ product.rating }}</div>
     </div>
     <div class="product__actions" v-if="!userCartStore.inCart(product.id)">
-      <button
-        :class="['btn', { active: size.active }]"
+      <BaseButton
+        :class="{ active: size.active }"
+        color="red small"
         v-for="size in product.sizes"
         :key="size.id"
         @click="productsStore.changeSizeProduct(product.id, size.id)"
       >
         {{ size.size }}см
-      </button>
+      </BaseButton>
     </div>
     <div class="product__footer">
-      <button
+      <BaseButton
         v-if="!userCartStore.inCart(product.id)"
-        class="btn btn--main"
         @click="userCartStore.addToCart(product)"
       >
         Добавить
-      </button>
-      <button
-        class="btn btn--main btn--red"
+      </BaseButton>
+      <BaseButton
+        color="button red"
         v-if="userCartStore.inCart(product.id)"
         @click="userCartStore.delFromCart(product)"
       >
         Удалить
-      </button>
+      </BaseButton>
       <div class="product__price">{{ product.price }} ₽</div>
     </div>
   </article>
 </template>
 
-<script setup lang="ts">
+<script lang="ts">
+import { defineComponent } from "vue";
+import type { PropType } from "vue";
 import type { ProductItem } from "@/types/ProductItem";
 import { useProductsStore } from "@/stores/products";
+import BaseButton from "@/components/ui/BaseButton.vue";
 import { useCartStore } from "@/stores/cart";
-const props = defineProps<{
-  product: ProductItem;
-}>();
-const productsStore = useProductsStore();
-const userCartStore = useCartStore();
+
+export default defineComponent({
+  components: {
+    BaseButton,
+  },
+  props: {
+    product: {
+      type: Object as PropType<ProductItem>,
+      required: true,
+    },
+  },
+  setup() {
+    const productsStore = useProductsStore();
+    const userCartStore = useCartStore();
+    return {
+      productsStore,
+      userCartStore,
+    };
+  },
+});
 </script>
 
 <style scoped lang="less">
@@ -99,22 +117,10 @@ const userCartStore = useCartStore();
     justify-content: space-between;
     margin: 10px -3px 0;
     flex-wrap: wrap;
-    button {
+    .button {
       width: calc((100% / 3) - 6px);
-      padding: 10px;
-      border-radius: 25px;
-      background-color: #f0f0f0;
-      color: #000;
       margin: 0 3px;
       flex-grow: 1;
-      &:hover {
-        background-color: lighten(#e23535, 10%);
-        color: #fff;
-      }
-      &.active {
-        background-color: #e23535;
-        color: #fff;
-      }
     }
   }
   &__name {
@@ -134,7 +140,7 @@ const userCartStore = useCartStore();
     display: flex;
     align-items: center;
     justify-content: space-between;
-    .btn {
+    .button {
       width: 131px;
     }
   }

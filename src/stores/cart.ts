@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import type { ProductItem } from "@/types/ProductItem";
 import { useUserStore } from "@/stores/user";
-import { addtoCartService, saveCartService } from "@/services/firebase";
+import { addtoCart, saveCart } from "@/core/services/firebase";
 import { useModalStore } from "@/stores/modal";
 import type { Cartitem } from "@/types/CartItem";
 interface cartStore {
@@ -60,7 +60,7 @@ export const useCartStore = defineStore({
           cnt: 1,
         } as Cartitem;
         this.cart.push(newItem);
-        await addtoCartService(newItem, useUserStore().user.id ?? "");
+        await addtoCart(newItem, useUserStore().user.id ?? "");
         this.inProccess = this.inProccess.filter((id) => id !== item.id);
       }
     },
@@ -72,7 +72,7 @@ export const useCartStore = defineStore({
         if (standartSize) {
           data.itemCart.price = data.itemCart.cnt * standartSize?.price;
         }
-        await saveCartService(this.cart, useUserStore().user.id ?? "");
+        await saveCart(this.cart, useUserStore().user.id ?? "");
         this.inProccess = this.inProccess.filter(
           (id) => id !== data.itemCart.id
         );
@@ -82,19 +82,16 @@ export const useCartStore = defineStore({
       if (this.canDel(item.id)) {
         this.inProccess.push(item.id);
         this.cart = this.cart.filter((pr) => pr.id !== item.id);
-        await saveCartService(this.cart, useUserStore().user.id ?? "");
+        await saveCart(this.cart, useUserStore().user.id ?? "");
         this.inProccess = this.inProccess.filter((id) => id !== item.id);
       }
     },
     saveCart(cart: Cartitem[]) {
       this.cart = cart;
     },
-    clearCartLocal() {
-      this.cart = [];
-    },
     async clearCart() {
       this.cart = [];
-      await saveCartService(this.cart, useUserStore().user.id ?? "");
+      await saveCart(this.cart, useUserStore().user.id ?? "");
     },
   },
 });

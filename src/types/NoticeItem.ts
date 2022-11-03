@@ -1,5 +1,5 @@
+export type TypeMsg = "error" | "success" | "warning";
 export type NoticeItem = {
-  type?: string;
-  title?: string;
-  text?: string;
+  title: string;
+  text: string;
 };

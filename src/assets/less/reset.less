@@ -1,0 +1,46 @@
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin-bottom: 0;
+}
+ul,
+li {
+  padding: 0;
+  list-style: none;
+  margin: 0;
+}
+button {
+  border: none;
+  padding: 0;
+  margin: 0;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+input,
+textarea {
+  font-family: "Inter";
+  font-weight: 400;
+  border: none;
+  border-radius: 0;
+  background-color: transparent;
+  &:focus {
+    outline: none;
+  }
+  &[type="number"] {
+    -moz-appearance: textfield;
+  }
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  &:not([type="checkbox"]):not([type="radio"]) {
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+  }
+}

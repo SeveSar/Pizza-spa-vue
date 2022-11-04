@@ -28,7 +28,7 @@
         />
       </div>
     </div>
-    <BaseButton type="submit" color="main">{{ buttonText }}</BaseButton>
+    <BaseButton type="submit" color="standart">{{ buttonText }}</BaseButton>
   </form>
 </template>
 

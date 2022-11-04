@@ -14,34 +14,29 @@
         <div class="product__content">
           <div class="product-wrap">
             <div class="product__actions">
-              <button
-                class="btn"
-                @click="
-                  cartStore.updateCnt({ itemCart, newCnt: itemCart.cnt - 1 })
-                "
+              <BaseButton
+                @click="changeCntDebounce(itemCart.id, itemCart.cnt - 1)"
               >
                 -
-              </button>
+              </BaseButton>
               <input
                 type="number"
+                min="1"
                 :value="itemCart.cnt"
-                @change="onChange(itemCart, $event)"
+                @change="onChange(itemCart.id, $event)"
               />
-              <button
-                class="btn"
-                @click="
-                  cartStore.updateCnt({ itemCart, newCnt: itemCart.cnt + 1 })
-                "
+              <BaseButton
+                @click="changeCntDebounce(itemCart.id, itemCart.cnt + 1)"
               >
                 +
-              </button>
+              </BaseButton>
             </div>
           </div>
           <div class="product__price">₽{{ itemCart.price }}</div>
         </div>
       </div>
     </div>
-    <button class="btn btn--del" @click="cartStore.delFromCart(itemCart)">
+    <button class="btn btn--del" @click="cartStore.delFromCart(itemCart.id)">
       <svg
         width="24"
         height="24"
@@ -59,21 +54,42 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script lang="ts">
 import type { Cartitem } from "@/types/CartItem";
 import { useCartStore } from "@/stores/cart";
-const props = defineProps<{
-  itemCart: Cartitem;
-}>();
-const cartStore = useCartStore();
+import BaseButton from "../ui/BaseButton.vue";
+import { defineComponent } from "vue";
+import type { PropType } from "vue";
+import debounce from "@/utils/debounce";
+export default defineComponent({
+  components: {
+    BaseButton,
+  },
+  props: {
+    itemCart: {
+      type: Object as PropType<Cartitem>,
+      required: true,
+    },
+  },
+  setup() {
+    const cartStore = useCartStore();
 
-const onChange = (itemCart: Cartitem, event: Event): void => {
-  const element = event.currentTarget as HTMLInputElement;
-  cartStore.updateCnt({
-    itemCart,
-    newCnt: +element.value,
-  });
-};
+    const onChange = (id: number, event: Event): void => {
+      const element = event.currentTarget as HTMLInputElement;
+      cartStore.updateCnt(id, +element.value);
+    };
+    const changeCnt = (id: number, newCnt: number) => {
+      cartStore.updateCnt(id, newCnt);
+    };
+    const changeCntDebounce = debounce(changeCnt);
+
+    return {
+      onChange,
+      cartStore,
+      changeCntDebounce,
+    };
+  },
+});
 </script>
 
 <style lang="less" scoped>

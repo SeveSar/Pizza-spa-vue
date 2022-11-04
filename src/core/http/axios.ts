@@ -19,9 +19,12 @@ const instance: AxiosInstance = axios.create({
 });
 
 function setTokenHeaders(config: AxiosRequestConfig): AxiosRequestConfig {
-  const notAvailable = ["/products", "/user"];
+  const notRequiredUrls = ["/products", "/user"];
   const url = config.url;
-  if (url && notAvailable.includes(url)) {
+  const isFound = notRequiredUrls.some((currentUrl) =>
+    url?.includes(currentUrl)
+  );
+  if (isFound) {
     return config;
   }
   const userInfo = getInfo();
@@ -39,6 +42,7 @@ instance.interceptors.response.use(
       return Promise.reject(error);
     }
     const refresh = getRefreshToken();
+    console.log(refresh, "ref");
     if (!refresh) {
       return Promise.reject(error);
     }

@@ -3,7 +3,7 @@
     <div class="cart__inner" v-if="cart.length">
       <div class="cart__header">
         <h1 class="page-title">Ваш заказ</h1>
-        <button class="btn btn--clear" @click="cartStore.clearCart">
+        <BaseButton class="button_clear" @click="cartStore.clearCart">
           <svg
             fill="#000000"
             xmlns="http://www.w3.org/2000/svg"
@@ -16,7 +16,7 @@
             />
           </svg>
           Очистить корзину
-        </button>
+        </BaseButton>
       </div>
       <AppCartList :cart="cart" />
       <div class="cart__footer">
@@ -27,9 +27,9 @@
           <span>Итого: </span> ₽{{ totalPrice }}
         </div>
       </div>
-      <button class="btn btn--main btn--order" @click="order">
+      <BaseButton class="button_order standart" @click="order">
         Оформить заказ
-      </button>
+      </BaseButton>
     </div>
     <div class="cart-empty" v-show="!cart.length">
       <img src="@/assets/images/empty-cart.png" alt="" />
@@ -43,6 +43,7 @@ import AppCartList from "@/components/cart/AppCartList.vue";
 import { useCartStore } from "@/stores/cart";
 import { storeToRefs } from "pinia";
 import { useRouter } from "vue-router";
+import BaseButton from "@/components/ui/BaseButton.vue";
 const cartStore = useCartStore();
 const { cart, totalPrice, totalItems } = storeToRefs(cartStore);
 const router = useRouter();
@@ -93,7 +94,7 @@ const order = () => {
       }
     }
   }
-  .btn.btn--clear {
+  .button_clear {
     color: #000;
     @media screen and (max-width: 575px) {
       margin-top: 15px;
@@ -131,7 +132,7 @@ const order = () => {
       color: #000;
     }
   }
-  .btn.btn--order {
+  .button_order {
     margin: 25px auto 0;
     padding: 0 25px;
   }

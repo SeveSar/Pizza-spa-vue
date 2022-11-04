@@ -21,7 +21,7 @@ export default defineComponent({
   props: {
     color: {
       type: String,
-      default: "main",
+      default: "",
     },
     role: {
       type: String as PropType<ButtonHTMLAttributes["type"]>,
@@ -48,7 +48,7 @@ export default defineComponent({
   line-height: 22px;
   height: 48px;
   border-radius: 6px;
-  &.main {
+  &.standart {
     background: #ff7010;
 
     &:hover {

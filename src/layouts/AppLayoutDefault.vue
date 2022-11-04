@@ -52,9 +52,6 @@ export default defineComponent({
         checkRouteErrors();
       }
     );
-    return {
-      // totalItems,
-    };
   },
   components: {
     AppHeader,
@@ -67,9 +64,6 @@ export default defineComponent({
 });
 </script>
 <style scoped lang="less">
-.main {
-  background-color: #f9f9f9;
-}
 .cart-mobile {
   position: fixed;
   background: #ff7010;

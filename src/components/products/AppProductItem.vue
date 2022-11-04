@@ -29,14 +29,15 @@
     <div class="product__footer">
       <BaseButton
         v-if="!userCartStore.inCart(product.id)"
-        @click="userCartStore.addToCart(product)"
+        @click="userCartStore.addToCart(product.id)"
+        color="standart"
       >
         Добавить
       </BaseButton>
       <BaseButton
         color="button red"
         v-if="userCartStore.inCart(product.id)"
-        @click="userCartStore.delFromCart(product)"
+        @click="userCartStore.delFromCart(product.id)"
       >
         Удалить
       </BaseButton>

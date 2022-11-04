@@ -2,6 +2,7 @@ import { createRouter, createWebHashHistory } from "vue-router";
 import ErrorPage from "@/views/ErrorPage.vue";
 import { loadLayoutMiddleware } from "./middleware/loadLayout.middleware";
 import { checkIsAuth } from "./middleware/chekIsAuth.middleware";
+import { AppLayoutsEnum } from "@/layouts/layouts.types";
 const router = createRouter({
   history: createWebHashHistory(import.meta.env.BASE_URL),
   routes: [
@@ -42,6 +43,9 @@ const router = createRouter({
     {
       path: "/:pathMatch(.*)*",
       component: ErrorPage,
+      meta: {
+        layout: AppLayoutsEnum.error,
+      },
     },
   ],
 });

@@ -1,5 +1,5 @@
 <template>
-  <ul class="list-product">
+  <ul class="list-product" v-if="products?.length">
     <li
       class="list-product__item"
       v-for="product in products"
@@ -8,15 +8,24 @@
       <AppProductItem :product="product" />
     </li>
   </ul>
+  <SkeletonProducts v-else :repeat="12" />
 </template>
 
-<script lang="ts" setup>
+<script lang="ts">
 import AppProductItem from "./AppProductItem.vue";
+import SkeletonProducts from "../ui/skeleton/SkeletonProducts.vue";
 import type { ProductItem } from "@/types/ProductItem";
-
-defineProps<{
-  products: ProductItem[];
-}>();
+import { defineComponent } from "vue";
+import type { PropType } from "vue";
+export default defineComponent({
+  components: {
+    AppProductItem,
+    SkeletonProducts,
+  },
+  props: {
+    products: Array as PropType<ProductItem[]>,
+  },
+});
 </script>
 
 <style lang="less" scoped>

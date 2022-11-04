@@ -15,7 +15,6 @@ export const useProductsStore = defineStore({
   getters: {
     getItemById(state) {
       return function (id: number | string): ProductItem | undefined {
-        console.log(id, "products");
         return state.products.find((item) => item.id === id);
       };
     },

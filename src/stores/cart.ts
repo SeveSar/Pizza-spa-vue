@@ -4,6 +4,7 @@ import { useUserStore } from "@/stores/user";
 import { addtoCart, saveCart } from "@/core/services/firebase";
 import { useModalStore } from "@/stores/modal";
 import type { Cartitem } from "@/types/CartItem";
+import { useProductsStore } from "./products";
 interface cartStore {
   cart: Cartitem[];
   inProccess: number[];
@@ -29,6 +30,8 @@ export const useCartStore = defineStore({
     inProccessing() {
       return (id: number): boolean => this.inProccess.includes(id);
     },
+    getItem: (state) => (id: number) =>
+      state.cart.find((item) => item.id === id),
     canAdd() {
       return (id: number) => !this.inProccessing(id) && !this.inCart(id);
     },
@@ -48,42 +51,44 @@ export const useCartStore = defineStore({
       }, 0),
   },
   actions: {
-    async addToCart(item: ProductItem) {
+    async addToCart(id: number) {
       if (!useUserStore().isAuth) {
         useModalStore().openLoginModal();
         return false;
       }
-      if (this.canAdd(item.id)) {
-        this.inProccess.push(item.id);
+      const productsStore = useProductsStore();
+      const cartItem = productsStore.getItemById(id);
+      if (this.canAdd(id) && cartItem) {
+        this.inProccess.push(id);
         const newItem = {
-          ...item,
+          ...cartItem,
           cnt: 1,
         } as Cartitem;
         this.cart.push(newItem);
         await addtoCart(newItem, useUserStore().user.id ?? "");
-        this.inProccess = this.inProccess.filter((id) => id !== item.id);
+        this.inProccess = this.inProccess.filter((id) => id !== id);
       }
     },
-    async updateCnt(data: { itemCart: Cartitem; newCnt: number }) {
-      if (this.canUpdate(data.itemCart.id)) {
-        this.inProccess.push(data.itemCart.id);
-        data.itemCart.cnt = Math.max(1, data.newCnt);
-        const standartSize = data.itemCart.sizes?.find((item) => item.active);
+    async updateCnt(id: number, newCnt: number) {
+      if (this.canUpdate(id)) {
+        this.inProccess.push(id);
+        const itemCart = this.getItem(id);
+        if (!itemCart) return false;
+        itemCart.cnt = Math.max(1, newCnt);
+        const standartSize = itemCart.sizes?.find((item) => item.active);
         if (standartSize) {
-          data.itemCart.price = data.itemCart.cnt * standartSize?.price;
+          itemCart.price = itemCart.cnt * standartSize?.price;
         }
         await saveCart(this.cart, useUserStore().user.id ?? "");
-        this.inProccess = this.inProccess.filter(
-          (id) => id !== data.itemCart.id
-        );
+        this.inProccess = this.inProccess.filter((itemId) => itemId !== id);
       }
     },
-    async delFromCart(item: ProductItem) {
-      if (this.canDel(item.id)) {
-        this.inProccess.push(item.id);
-        this.cart = this.cart.filter((pr) => pr.id !== item.id);
+    async delFromCart(id: number) {
+      if (this.canDel(id)) {
+        this.inProccess.push(id);
+        this.cart = this.cart.filter((pr) => pr.id !== id);
         await saveCart(this.cart, useUserStore().user.id ?? "");
-        this.inProccess = this.inProccess.filter((id) => id !== item.id);
+        this.inProccess = this.inProccess.filter((itemId) => itemId !== id);
       }
     },
     saveCart(cart: Cartitem[]) {

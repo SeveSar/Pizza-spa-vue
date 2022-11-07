@@ -1,5 +1,5 @@
 <template>
-  <AppHeader></AppHeader>
+  <TheHeader></TheHeader>
   <Teleport to="body">
     <AppModalWrap>
       <AppModalAuth></AppModalAuth>
@@ -17,7 +17,7 @@
 </template>
 
 <script lang="ts">
-import AppHeader from "@/components/layouts/AppHeader.vue";
+import TheHeader from "@/components/layouts/TheHeader.vue";
 import AppModalWrap from "@/components/modal/AppModalWrap.vue";
 import AppModalAuth from "@/components/modal/AppModalAuth.vue";
 import { useRouter, useRoute } from "vue-router";
@@ -54,7 +54,7 @@ export default defineComponent({
     );
   },
   components: {
-    AppHeader,
+    TheHeader,
     AppModalWrap,
     AppModalAuth,
   },

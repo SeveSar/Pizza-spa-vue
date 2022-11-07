@@ -25,7 +25,7 @@ app.use(router);
 async function setUserCart() {
   if (userId) {
     const cartData = await getCartUser(userId);
-    return await useCartStore().saveCart(cartData?.data ?? []);
+    useCartStore().saveCart(cartData?.data ?? []);
   }
   return true;
 }

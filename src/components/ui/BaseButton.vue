@@ -46,7 +46,7 @@ export default defineComponent({
   justify-content: center;
   font-size: 16px;
   line-height: 22px;
-  height: 48px;
+  padding: 13px 0;
   border-radius: 6px;
   &.standart {
     background: #ff7010;
@@ -63,6 +63,7 @@ export default defineComponent({
     color: #000;
     border-radius: 25px;
     background-color: #f0f0f0;
+
     &:hover,
     &.active {
       background-color: #ff0000;

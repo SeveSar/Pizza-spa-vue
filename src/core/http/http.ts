@@ -4,6 +4,7 @@ import initInterceptors from "./interceptors";
 
 import type { AxiosRequestConfig, AxiosResponse } from "axios";
 import type ErrorResponse from "@/types/ErrorResponse";
+
 class HTTPService {
   private http: AxiosInstance;
 

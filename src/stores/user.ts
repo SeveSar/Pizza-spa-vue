@@ -7,7 +7,6 @@ import type { UserInfo } from "@/types/UserInfo";
 import { setNewUserData } from "@/core/services/firebase";
 import { getCartUser } from "@/core/services/firebase";
 import { useCartStore } from "@/stores/cart";
-import { callNotification } from "@/utils/notice";
 
 interface UserState {
   token: null | string;

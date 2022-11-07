@@ -7,7 +7,7 @@ import type { UserInfo } from "@/types/UserInfo";
 import { setNewUserData } from "@/core/services/firebase";
 import { getCartUser } from "@/core/services/firebase";
 import { useCartStore } from "@/stores/cart";
-import { openNotification } from "@/utils/notice";
+import { callNotification } from "@/utils/notice";
 
 interface UserState {
   token: null | string;
@@ -26,67 +26,27 @@ export const useUserStore = defineStore({
   },
   actions: {
     async login(email: string, password: string) {
-      try {
-        const data = await userApi.login(email, password);
+      const data = await userApi.login(email, password);
 
-        if (!data) return false;
-        this.token = data.idToken ?? "";
-        this.user = {
-          email: data.email ?? "",
-          id: data.localId ?? "",
-          refreshToken: data.refreshToken ?? "",
-        };
-        setInfo(this.token, this.user);
-        getCartUser(this.user.id ?? "").then((cartData) => {
-          useCartStore().saveCart(cartData?.data ?? []);
-        });
-        useModalStore().closeLoginModal();
-      } catch (e: any) {
-        if (e.response?.data?.error?.message) {
-          switch (e.response?.data?.error.message) {
-            case "EMAIL_NOT_FOUND":
-              openNotification("error", {
-                title: "Ошибка",
-                text: "Пользователь с таким e-mail не существует",
-              });
-
-              break;
-            case "INVALID_PASSWORD":
-              openNotification("error", {
-                title: "Ошибка",
-                text: "Пароль не верен",
-              });
-              break;
-            case "TOO_MANY_ATTEMPTS_TRY_LATER":
-              openNotification("error", {
-                title: "Ошибка",
-                text: "Вы сделали много попыток входа. Повторите позже",
-              });
-              break;
-          }
-        }
-      }
+      if (!data) return false;
+      this.token = data.idToken ?? "";
+      this.user = {
+        email: data.email ?? "",
+        id: data.localId ?? "",
+        refreshToken: data.refreshToken ?? "",
+      };
+      setInfo(this.token, this.user);
+      getCartUser(this.user.id ?? "").then((cartData) => {
+        useCartStore().saveCart(cartData?.data ?? []);
+      });
+      useModalStore().closeLoginModal();
     },
     async register(email: string, password: string) {
-      try {
-        const data = await userApi.register(email, password);
-
-        if (data) {
-          await setNewUserData(email, data.localId ?? "");
-          this.login(email, password);
-          setRefreshToken(data?.refreshToken ?? "");
-        }
-      } catch (error: any) {
-        if (error.response?.data?.error?.message) {
-          switch (error.response?.data?.error?.message) {
-            case "EMAIL_EXISTS":
-              openNotification("error", {
-                title: "Ошибка",
-                text: "Пользователь с таким e-mail уже существует",
-              });
-              break;
-          }
-        }
+      const data = await userApi.register(email, password);
+      if (data) {
+        await setNewUserData(email, data.localId ?? "");
+        this.login(email, password);
+        setRefreshToken(data?.refreshToken ?? "");
       }
     },
     logout() {

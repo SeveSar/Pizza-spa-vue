@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import type { ProductItem } from "@/types/ProductItem";
+
 import { useUserStore } from "@/stores/user";
 import { addtoCart, saveCart } from "@/core/services/firebase";
 import { useModalStore } from "@/stores/modal";

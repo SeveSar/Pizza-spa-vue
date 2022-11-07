@@ -1,6 +1,12 @@
 import { notification } from "ant-design-vue";
-import type { TypeMsg, NoticeItem } from "@/types/NoticeItem";
-export const openNotification = (type: TypeMsg, msg: NoticeItem): void => {
+
+export type MessageType = "error" | "success" | "warning";
+export type NoticeType = {
+  title: "Error" | "Success" | "Warning";
+  text: string;
+};
+
+export const callNotification = (type: MessageType, msg: NoticeType): void => {
   notification[type]({
     message: msg.title,
     description: msg.text,

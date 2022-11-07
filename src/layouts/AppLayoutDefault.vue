@@ -21,7 +21,7 @@ import AppHeader from "@/components/layouts/AppHeader.vue";
 import AppModalWrap from "@/components/modal/AppModalWrap.vue";
 import AppModalAuth from "@/components/modal/AppModalAuth.vue";
 import { useRouter, useRoute } from "vue-router";
-import { openNotification } from "@/utils/notice";
+import { callNotification } from "@/utils/notice";
 import { useCartStore } from "@/stores/cart";
 import { mapState } from "pinia";
 import { watch, defineComponent, onMounted } from "vue";
@@ -34,7 +34,7 @@ export default defineComponent({
       if (route.query.msg) {
         switch (route.query.msg) {
           case "NOT_AUTH":
-            openNotification("error", {
+            callNotification("error", {
               title: "Error",
               text: "Вы не авторизованы",
             });

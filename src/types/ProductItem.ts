@@ -1,4 +1,4 @@
-type sizeItem = {
+type SizeType = {
   size: number;
   active: boolean;
   id: number;
@@ -11,6 +11,6 @@ export interface ProductItem {
   name: string;
   price: number;
   rating: number;
-  sizes?: sizeItem[];
+  sizes?: SizeType[];
   types?: number[];
 }

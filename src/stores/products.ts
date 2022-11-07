@@ -21,13 +21,9 @@ export const useProductsStore = defineStore({
   },
   actions: {
     async fetchProducts() {
-      try {
-        const { pizzas } = await getAllProducts();
-        if (pizzas) {
-          this.products = pizzas;
-        }
-      } catch (e) {
-        console.log(e);
+      const res = await getAllProducts();
+      if (res) {
+        this.products = res.pizzas;
       }
     },
     changeSizeProduct(idProduct: number | string, idSize: number | string) {

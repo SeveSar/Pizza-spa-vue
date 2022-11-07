@@ -19,13 +19,24 @@
 import { useModalStore } from "@/stores/modal";
 import { storeToRefs } from "pinia";
 import { useBodyToggleClass } from "@/use/bodyToggleClass";
-import { defineComponent } from "vue";
+import { defineComponent, onMounted, onUnmounted } from "vue";
 export default defineComponent({
   setup() {
     const storeModal = useModalStore();
 
     const { loginModal } = storeToRefs(storeModal);
     useBodyToggleClass(loginModal);
+    const onKeyHandler = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        storeModal.closeLoginModal();
+      }
+    };
+    onMounted(() => {
+      document.body.addEventListener("keydown", onKeyHandler);
+    });
+    onUnmounted(() => {
+      document.body.removeEventListener("keydown", onKeyHandler);
+    });
     return {
       loginModal,
       storeModal,

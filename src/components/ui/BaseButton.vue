@@ -46,11 +46,10 @@ export default defineComponent({
   justify-content: center;
   font-size: 16px;
   line-height: 22px;
-  padding: 13px 0;
   border-radius: 6px;
   &.standart {
     background: #ff7010;
-
+    padding: 13px 25px;
     &:hover {
       background-color: darken(#ff7010, 15%);
     }

@@ -35,7 +35,7 @@
         Добавить
       </BaseButton>
       <BaseButton
-        color="button red"
+        color="standart red"
         v-if="userCartStore.inCart(product.id)"
         @click="userCartStore.delFromCart(product.id)"
       >

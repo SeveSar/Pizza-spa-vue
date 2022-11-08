@@ -134,7 +134,6 @@ const order = () => {
   }
   .button_order {
     margin: 25px auto 0;
-    padding: 0 25px;
   }
 }
 </style>

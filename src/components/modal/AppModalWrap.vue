@@ -18,14 +18,13 @@
 <script lang="ts">
 import { useModalStore } from "@/stores/modal";
 import { storeToRefs } from "pinia";
-import { useBodyToggleClass } from "@/use/bodyToggleClass";
-import { defineComponent, onMounted, onUnmounted } from "vue";
+
+import { defineComponent, onMounted, onUnmounted, watch } from "vue";
 export default defineComponent({
   setup() {
     const storeModal = useModalStore();
 
     const { loginModal } = storeToRefs(storeModal);
-    useBodyToggleClass(loginModal);
     const onKeyHandler = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         storeModal.closeLoginModal();
@@ -37,6 +36,11 @@ export default defineComponent({
     onUnmounted(() => {
       document.body.removeEventListener("keydown", onKeyHandler);
     });
+    watch(loginModal, (val) => {
+      if (val) document.body.classList.add("no-scroll");
+      else document.body.classList.remove("no-scroll");
+    });
+
     return {
       loginModal,
       storeModal,

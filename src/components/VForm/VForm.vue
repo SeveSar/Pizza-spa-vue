@@ -7,26 +7,21 @@
       </div>
     </div>
     <div class="form-auth__body">
-      <div class="form-group">
-        <BaseInput
-          v-model="v$.emailInput.$model"
-          labelText="Ваш E-mail"
-          id="auth-1"
-          :errors="emailErrorText"
-          type="email"
-          name="email"
-        />
-      </div>
-      <div class="form-group">
-        <BaseInput
-          labelText="Ваш пароль"
-          id="auth-2"
-          type="password"
-          name="password"
-          :errors="passwordErrorText"
-          v-model="v$.passwordInput.$model"
-        />
-      </div>
+      <BaseInput
+        v-model="v$.emailInput.$model"
+        labelText="Ваш E-mail"
+        id="auth-1"
+        :errors="emailErrorText"
+        name="email"
+      />
+      <BaseInput
+        labelText="Ваш пароль"
+        id="auth-2"
+        type="password"
+        name="password"
+        :errors="passwordErrorText"
+        v-model="v$.passwordInput.$model"
+      />
     </div>
     <BaseButton type="submit" color="standart">{{ buttonText }}</BaseButton>
   </form>
@@ -105,17 +100,18 @@ const onSubmit = async () => {
   &__body {
     margin-top: 20px;
   }
-  .form-group {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    &:not(:last-child) {
-      margin-bottom: 20px;
-    }
-  }
+
   .button {
     width: 100%;
     margin-top: 20px;
+  }
+}
+.form-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  &:not(:last-child) {
+    margin-bottom: 20px;
   }
 }
 </style>

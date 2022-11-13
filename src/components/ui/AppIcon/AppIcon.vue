@@ -11,7 +11,7 @@ export default defineComponent({
       required: true,
     },
   },
-  setup(props, ctx) {
+  setup(props) {
     const loadAsyncIcon = computed(() =>
       defineAsyncComponent(() => import(`../icons/${props.name}.vue`))
     );

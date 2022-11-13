@@ -1,25 +1,22 @@
 <template>
-  <label :for="id"> {{ labelText }} </label>
-  <input
-    :type="type"
-    class="form-control"
-    :id="id"
-    :placeholder="placeholder"
-    :value="modelValue"
-    :name="name"
-    @input="updateValue"
-  />
-  <small v-if="errors">{{ errors }}</small>
+  <div class="form-group">
+    <label :for="id"> {{ labelText }} </label>
+    <input
+      class="form-control"
+      :id="id"
+      :value="modelValue"
+      @input="updateValue"
+      v-bind="$attrs"
+    />
+    <small v-if="errors">{{ errors }}</small>
+  </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
 export default defineComponent({
+  inheritAttrs: false,
   props: {
-    type: {
-      type: String,
-      default: "text",
-    },
     modelValue: {
       type: [String, Number],
       default: "",
@@ -32,14 +29,7 @@ export default defineComponent({
       type: String,
       default: null,
     },
-    name: {
-      type: String,
-      default: null,
-    },
-    placeholder: {
-      type: String,
-      default: "",
-    },
+
     errors: {
       type: [Boolean, String],
       default: false,

@@ -30,11 +30,8 @@ class HTTPService {
       const res = await this.http.get<T, R>(url, config);
       return res;
     } catch (error) {
-      if (axios.isAxiosError(error)) {
-        return this.processError(error);
-      } else {
-        throw new Error("Unknown Error");
-      }
+      const err = error as AxiosError;
+      return this.processError(err);
     }
   }
   async post<T, U = any, R = AxiosResponse<T>>(
@@ -46,11 +43,8 @@ class HTTPService {
       const res = await this.http.post<T, R>(url, data, config);
       return res;
     } catch (error) {
-      if (axios.isAxiosError(error)) {
-        return this.processError(error);
-      } else {
-        throw new Error("Unknown Error");
-      }
+      const err = error as AxiosError;
+      return this.processError(err);
     }
   }
 

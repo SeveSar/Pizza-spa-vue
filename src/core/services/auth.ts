@@ -21,6 +21,7 @@ const register = async (
       password,
     }
   );
+
   if (isError(res)) {
     errorHandler(res);
     return null;

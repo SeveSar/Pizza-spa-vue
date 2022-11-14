@@ -1,0 +1,1 @@
+import{T as s}from"./TheHeader.80f773cc.js";import{d as o,o as t,c as n,b as r,e,m as c,F as d}from"./index.8fbbe4da.js";const l={class:"main"},m={class:"container"},u=o({setup(i){return(a,_)=>(t(),n(d,null,[r(s),e("main",l,[e("div",m,[c(a.$slots,"default")])])],64))}});export{u as default};

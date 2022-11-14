@@ -10,7 +10,7 @@
         </div>
       </div>
     </div>
-    <AppError v-else />
+    <AppError title="Ошибка 404. Продукт не найден" v-else />
   </div>
 </template>
 

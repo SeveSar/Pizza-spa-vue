@@ -1,10 +1,20 @@
 <template>
   <div class="error">
-    <h1>Ошибка 404. Страница не найдена</h1>
+    <h1>{{ title }}</h1>
   </div>
 </template>
 
-<script setup lang="ts"></script>
+<script lang="ts">
+import { defineComponent } from "vue";
+export default defineComponent({
+  props: {
+    title: {
+      type: String,
+      default: "Ошибка 404. Страница не найдена",
+    },
+  },
+});
+</script>
 
 <style scoped>
 .error {

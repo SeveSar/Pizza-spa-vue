@@ -69,5 +69,25 @@ export default defineComponent({
       color: #fff;
     }
   }
+  &.rounded {
+    padding: 13px 30px;
+    border-radius: 30px;
+    color: #000;
+    font-size: 15px;
+    font-weight: 700;
+    background-color: #f9f9f9;
+    &:hover {
+      background-color: #c6bfbf;
+    }
+    &.active {
+      background-color: #ff7010;
+      color: #fff;
+    }
+    @media screen and (max-width: 575px) {
+      padding: 7px 15px;
+      font-size: 12px;
+      line-height: 18px;
+    }
+  }
 }
 </style>

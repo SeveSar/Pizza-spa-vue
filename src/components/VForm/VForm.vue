@@ -32,7 +32,7 @@ import useVuelidate from "@vuelidate/core";
 import { required, email, minLength } from "@vuelidate/validators";
 import BaseInput from "@/components/ui/BaseInput.vue";
 import BaseButton from "../ui/BaseButton.vue";
-import { ref, toRef, toRefs, computed, reactive } from "vue";
+import { toRefs, computed, reactive } from "vue";
 import type DataFormControls from "@/types/DataFormControls";
 
 defineProps({

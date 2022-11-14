@@ -19,14 +19,14 @@
                 </button>
                 <div v-if="userStore.isAuth" class="user-drop">
                   <div class="current">
-                    <button>
+                    <BaseButton>
                       <AppIcon name="UserIcon"></AppIcon>
                       Вы
-                    </button>
+                    </BaseButton>
                   </div>
                   <div class="dropdown">
                     <div class="dropdown__inner">
-                      <button @click="logOut">Выйти</button>
+                      <BaseButton @click="logOut">Выйти</BaseButton>
                     </div>
                   </div>
                 </div>
@@ -76,25 +76,24 @@
   </header>
   <div class="mobile-menu" :class="{ active: isOpenedBurger }">
     <div class="user-auth">
-      <button
+      <BaseButton
         v-if="!userStore.isAuth"
         class="user-auth__btn"
         @click="modalStore.openLoginModal"
       >
         <AppIcon name="UserIcon"></AppIcon>
         Войти в аккаунт
-      </button>
+      </BaseButton>
       <div v-if="userStore.isAuth" class="user-drop">
         <div class="current">
-          <button>
+          <BaseButton>
             <AppIcon name="UserIcon"></AppIcon>
             Вы
-          </button>
+          </BaseButton>
         </div>
         <div class="dropdown">
           <div class="dropdown__inner">
-            <router-link :to="{ name: 'Profile' }">Профиль</router-link>
-            <button @click="logOut">Выйти</button>
+            <BaseButton @click="logOut">Выйти</BaseButton>
           </div>
         </div>
       </div>
@@ -117,11 +116,13 @@ import { useModalStore } from "@/stores/modal";
 import { useUserStore } from "@/stores/user";
 import { useCartStore } from "@/stores/cart";
 import AppIcon from "@/components/ui/AppIcon/AppIcon.vue";
+import BaseButton from "@/components/ui/BaseButton.vue";
 import { ref, watch, defineComponent } from "vue";
 
 export default defineComponent({
   components: {
     AppIcon,
+    BaseButton,
   },
   setup() {
     const modalStore = useModalStore();
@@ -197,10 +198,7 @@ export default defineComponent({
       transform: none;
       right: 0;
     }
-    @media screen and (max-width: 991px) {
-      left: 0;
-      right: auto;
-    }
+
     &__inner {
       padding: 15px 20px;
       background: #ffffff;
@@ -209,7 +207,7 @@ export default defineComponent({
       box-shadow: 0px 2px 8px rgba(25, 25, 25, 0.1);
       border-radius: 12px;
     }
-    button {
+    .button {
       margin: 0;
     }
   }
@@ -234,6 +232,11 @@ export default defineComponent({
     &-col {
       display: flex;
       align-items: center;
+      @media screen and (max-width: 575px) {
+        &:last-child {
+          display: none;
+        }
+      }
     }
   }
   .user-auth {
@@ -338,6 +341,17 @@ export default defineComponent({
   }
   .nav {
     margin-top: 25px;
+  }
+  .button {
+    svg {
+      margin-right: 6px;
+    }
+  }
+  .dropdown {
+    @media screen and (max-width: 991px) {
+      left: 0;
+      right: auto;
+    }
   }
   .user-auth__btn {
     color: #ff7010;

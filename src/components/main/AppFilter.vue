@@ -1,20 +1,21 @@
 <template>
   <div class="filter">
     <div class="filter__inner">
-      <button
-        class="btn btn--filter"
+      <BaseButton
         @click="onClick(btn)"
+        color="rounded"
         :class="{ active: btn.category === currentCategory }"
         v-for="btn in filterButtons"
         :key="btn.category"
       >
         {{ btn.title }}
-      </button>
+      </BaseButton>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import BaseButton from "../ui/BaseButton.vue";
 const emit = defineEmits<{
   (e: "buttonClick", type: number): void;
 }>();
@@ -47,27 +48,7 @@ const onClick = (btn: FilterButton) => {
     align-items: center;
   }
 }
-.btn {
-  background-color: #f9f9f9;
-  border-radius: 30px;
-  cursor: pointer;
-  font-weight: 700;
+.button {
   margin-right: 10px;
-  padding: 13px 30px;
-  transition: background-color 0.1s ease-in-out;
-  user-select: none;
-  color: #000;
-  @media screen and (max-width: 575px) {
-    padding: 7px 15px;
-    font-size: 12px;
-    line-height: 18px;
-  }
-  &:hover {
-    background-color: #c6bfbf;
-  }
-  &.active {
-    background-color: #ff7010;
-    color: #fff;
-  }
 }
 </style>

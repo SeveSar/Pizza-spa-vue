@@ -1,0 +1,1 @@
+import{T as s}from"./TheHeader.dd7ca148.js";import{d as o,o as t,c as r,b as n,e,m as c,F as m}from"./index.6816b004.js";import"./BaseButton.bc20c9fb.js";const d={class:"main"},i={class:"container"},h=o({setup(l){return(a,p)=>(t(),r(m,null,[n(s),e("main",d,[e("div",i,[c(a.$slots,"default")])])],64))}});export{h as default};

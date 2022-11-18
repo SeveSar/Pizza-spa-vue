@@ -1,14 +1,15 @@
 export default interface ErrorResponse {
-  message?: string;
-  status?: number;
+  message: string;
+  status: number;
   error: boolean;
 }
 
 export function isError(object: unknown): object is ErrorResponse {
   return (
-    typeof object === "object" &&
+    object instanceof Object &&
     object !== null &&
-    "error" in object &&
-    object.error === true
+    Object.prototype.hasOwnProperty.call(object, "error") &&
+    Object.prototype.hasOwnProperty.call(object, "status") &&
+    Object.prototype.hasOwnProperty.call(object, "message")
   );
 }

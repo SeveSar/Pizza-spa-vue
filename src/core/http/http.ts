@@ -63,12 +63,14 @@ class HTTPService {
       return {
         error: true,
         message: "server time out",
+        status: 500,
       };
     } else {
       // Something happened in setting up the request that triggered an Error
       return {
         message: "opps! something went wrong while setting up request",
         error: true,
+        status: 500,
       };
     }
   }

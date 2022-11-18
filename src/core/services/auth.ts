@@ -26,7 +26,6 @@ const register = async (
     errorHandler(res);
     return null;
   }
-
   return res.data;
 };
 
